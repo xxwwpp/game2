@@ -8,3 +8,5 @@ We will choose a class, level up, cast spells, attack mobs until you die. Some c
 
 I want to be able to level up a character, and increase its stats.
 
+i love eating poop.
+
