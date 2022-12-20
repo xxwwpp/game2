@@ -1,5 +1,5 @@
 const Pets = require("./pets");
 
-const basalisk = new Pets("Basalisk", 8);
+const basalisk = new Pets("basalisk", 8);
 
 module.exports = basalisk;

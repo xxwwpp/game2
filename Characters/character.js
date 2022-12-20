@@ -1,11 +1,14 @@
+const config = require("./className.js");
+
 class Character {
     constructor(name, className) {
         this.name = name;
         this.className= className;
         this.level = 1;
-        this.mana = 1;
-        this.speed = 1;
-        this.health = 1;
+        this.mana = 3;
+        this.speed = 3;
+        this.health = 10;
+        this.attack = 4;
         this.pets = [];
         this.weapons = [];
         this.spells = [];
@@ -16,38 +19,51 @@ class Character {
 
     levelUp(){
         this.level += 1;
-        if(this.className === "shaman") {
+        if(this.className === config.className.ShamanClassName) {
+            console.log("levelling up ", this.className);
             this.attack = this.attack +2;
             this.health = this.health +4;
             this.mana = this.mana +10;
+            this.speed = this.speed +7;
         }
-        else if (this.className === "gambler") {
+        else if (this.className === config.className.GamblerClassName) {
+            console.log("levelling up ", this.className);
             this.attack = this.attack +3;
             this.health = this.health +8;
             this.mana = this.mana +7;
+            this.speed = this.speed +5;
         }
-        else if (this.className === "medic") {
+        else if (this.className === config.className.MedicClassName) {
+            console.log("levelling up ", this.className);
             this.attack = this.attack +1;
             this.health = this.health +10;
             this.mana = this.mana + 8;
+            this.speed = this.speed +12;
         }
     }
 
-    getDamage() {
-        if(this.activePet) {
-            const petDamage = this.activePet.damage;
-            return petDamage;
+    getDamage(spellName) {
+        if(this.attack) {
+            const characterattack = this.attack;
+            return characterattack;
         }
-        else if(this.activeSpell) {
-            const spellDamage = this.spells.damage;
-            return spellDamage;
+        else if(spellName) {
+            const spell = this.spells.find(s => s.name === spellName);
+            if(!spell) return 0;
+            if(this.mana < spell.mana) {
+                console.log("You're not man-a enough to cast this spell!");
+                return 0;
+            }
+            this.mana -= spell.mana;
+            return spell.damage + this.attack;
+        }
+        else if(this.activePet) {
+            const petDamage = this.activePet.damage;
+            return petDamage + this.attack;
         }
         else if(this.activeWeapon) {
             const weaponDamage = this.activeWeapon.damage;
-            return weaponDamage;
-        }
-        else {
-            return this.attack;
+            return weaponDamage + this.attack;
         }
     }
 
@@ -58,7 +74,7 @@ class Character {
         for (let i=0; i < this.pets.length; i++) {
             const pets = this.pets[i];
             if(pets.name === petName) {
-                this.activePet = pet;
+                this.activePet = pets;
             }
         }
     }
